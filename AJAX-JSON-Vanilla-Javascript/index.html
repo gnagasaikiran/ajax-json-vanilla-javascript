@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>AJAX & JSON</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+	<h2>An AJAX Example Using Vanilla Javascript</h2>
+	<input type="text" name="country" id="country">
+	<p>Please enter Country Name</p>
+	<button type="button" onclick="loadData()">Load Button</button>
+    Capital is: <span id="Capital"></span>
+
+</body>
+<script>
+	function loadData() {
+		var country = document.getElementById("country").value;
+		var xhttp = new XMLHttpRequest();
+		xhttp.onreadystatechange = function(){
+			if (xhttp.readyState === 4 && this.status === 200) {
+				var responseData = xhttp.responseText;
+				var jsondata = JSON.parse(responseData); // check here
+				var capital = jsondata[0].capital;
+				document.getElementById("Capital").innerHTML = capital;
+			}
+		};
+		xhttp.open('GET', 'https://restcountries.eu/rest/v2/name/' +country+ '?fullText=true', true);
+		xhttp.send();
+	}
+</script>
+</html>
